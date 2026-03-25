@@ -5,3 +5,8 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     is_admin = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if self.is_superuser:
+            self.is_admin = True
+        super().save(*args, **kwargs)
